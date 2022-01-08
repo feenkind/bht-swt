@@ -3,16 +3,65 @@ package normalTest;
 import java.util.regex.Pattern;
 
 public class User {
-    private String loginErrorLabel;
-    private String registrationErrorLabel;
-
-    public User() {
-        this.loginErrorLabel = "";
-        this.registrationErrorLabel = "";
-    }
-
+    private String errorLabel;
     private final Pattern VALID_EMAIL_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    private String userName;
+    private String userEmail;
+    private String userImage;
+
+    public User() {
+        this.errorLabel = "";
+        this.userName = "";
+        this.userEmail = "";
+        this.userImage = "";
+    }
+
+    /**
+     * Returns username.
+     *
+     * @return name of current user
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * Returns user email.
+     *
+     * @return email of current user
+     */
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    /**
+     * Returns user image url.
+     *
+     * @return image url of current user
+     */
+    public String getUserImage() {
+        return userImage;
+    }
+
+    /**
+     * Sets a user image url.
+     *
+     * @param url url of the user image
+     */
+    public void setUserImage(String url) {
+        this.userImage = url;
+    }
+
+    /**
+     * Returns the error label message
+     *
+     * @return error label as string
+     */
+    public String getErrorLabel() {
+        return this.errorLabel;
+    }
 
 
     /**
@@ -24,19 +73,19 @@ public class User {
      * @throws IllegalArgumentException if a parameter is null
      */
     public boolean login(String email, String password) throws IllegalArgumentException {
-        this.loginErrorLabel = "";
+        this.errorLabel = "";
 
         if (email == null || password == null) {
             throw new IllegalArgumentException("Email and password must not be null.");
         }
 
         if (email.length() < 1 || password.length() < 1) {
-            this.loginErrorLabel = "Email and Password are required.";
+            this.errorLabel = "Email and Password are required.";
             return false;
         }
 
         if (!isEmailValid(email)) {
-            this.loginErrorLabel = "Email is not valid.";
+            this.errorLabel = "Email is not valid.";
             return false;
         }
 
@@ -53,34 +102,29 @@ public class User {
      * @throws IllegalArgumentException if a parameter is null
      */
     public boolean register(String name, String email, String password) throws IllegalArgumentException {
-        this.registrationErrorLabel = "";
+        this.errorLabel = "";
 
         if (name == null || email == null || password == null) {
             throw new IllegalArgumentException("Name, email and password must not be null.");
         }
 
         if (name.length() < 1 || email.length() < 1 || password.length() < 1) {
-            this.registrationErrorLabel = "Name, Email and Password are required.";
+            this.errorLabel = "Name, Email and Password are required.";
             return false;
         }
 
         if (!isEmailValid(email)) {
-            this.registrationErrorLabel = "Email is not valid.";
+            this.errorLabel = "Email is not valid.";
             return false;
         }
+
+        this.userName = name;
+        this.userEmail = email;
 
         return true;
     }
 
     private boolean isEmailValid(String email) {
         return this.VALID_EMAIL_REGEX.matcher(email).find();
-    }
-
-    public String getLoginErrorLabelProperty() {
-        return this.loginErrorLabel;
-    }
-
-    public String getRegistrationErrorLabelProperty() {
-        return this.registrationErrorLabel;
     }
 }
