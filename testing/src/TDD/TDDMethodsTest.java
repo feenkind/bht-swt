@@ -65,4 +65,10 @@ class TDDMethodsTest {
     void countImagesWithEmptyText() {
         assertEquals(0, tddMethods.countImages(""));
     }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction countImages with null text")
+    void countImagesWithNulText() {
+        assertThrows(IllegalArgumentException.class, () -> tddMethods.countImages(null), "Text must not be null.");
+    }
 }
