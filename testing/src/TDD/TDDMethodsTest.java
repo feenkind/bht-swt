@@ -47,4 +47,28 @@ class TDDMethodsTest {
                 () -> tddMethods.changeToEur("Euro", null),
                 "Parameters must not be null.");
     }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction countImages successfully")
+    void countImagesSuccessfully() {
+        assertEquals(5, tddMethods.countImages("<image> This is a headline. <image> Some content. <image><image> Some more content. <image>"));
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction countImages when no image exists")
+    void countImagesWithoutImages() {
+        assertEquals(0, tddMethods.countImages("This is a headline. Some content. Some more content."));
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction countImages with empty text")
+    void countImagesWithEmptyText() {
+        assertEquals(0, tddMethods.countImages(""));
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction countImages with null text")
+    void countImagesWithNulText() {
+        assertThrows(IllegalArgumentException.class, () -> tddMethods.countImages(null), "Text must not be null.");
+    }
 }
