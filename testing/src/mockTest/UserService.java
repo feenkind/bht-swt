@@ -13,6 +13,8 @@ public class UserService {
      * @throws IllegalArgumentException if user is not found
      */
     public void setData(String email, String password) throws IllegalArgumentException {
+        System.out.println("Mock me.");
+
         if (email.equals("test@test.de")) {
             throw new IllegalArgumentException("This email does not exist.");
         }
