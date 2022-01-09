@@ -22,7 +22,15 @@ public class TDDMethods {
     }
 
     public int countImages(String text) {
+        int lengthImage = "<image>".length();
         int count = 0;
+        int imageIndex = text.indexOf("<image>");
+
+        while(imageIndex != -1) {
+            text = text.substring(imageIndex + lengthImage);
+            count ++;
+            imageIndex = text.indexOf("<image>");
+        }
 
         return count;
     }
