@@ -20,4 +20,10 @@ public class TDDMethods {
 
         return text.replaceAll(stringToExchange, "€");
     }
+
+    public int countImages(String text) {
+        int count = 0;
+
+        return count;
+    }
 }

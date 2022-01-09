@@ -47,4 +47,10 @@ class TDDMethodsTest {
                 () -> tddMethods.changeToEur("Euro", null),
                 "Parameters must not be null.");
     }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction countImages successfully")
+    void countImagesSuccessfully() {
+        assertEquals(5, tddMethods.countImages("<image> This is a headline. <image> Some content. <image><image> Some more content. <image>"));
+    }
 }
