@@ -59,4 +59,10 @@ class TDDMethodsTest {
     void countImagesWithoutImages() {
         assertEquals(0, tddMethods.countImages("This is a headline. Some content. Some more content."));
     }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction countImages with empty text")
+    void countImagesWithEmptyText() {
+        assertEquals(0, tddMethods.countImages(""));
+    }
 }
