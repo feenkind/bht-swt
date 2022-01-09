@@ -18,5 +18,23 @@ class TDDMethodsTest {
         assertEquals("I have 500 €, you have 800 €.", tddMethods.changeToEur("Euro", "I have 500 Euro, you have 800 Euro."));
     }
 
-    // TODO: no occurence, empty string, null parameters
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction changeToEur without occurence of echange parameter")
+    void changeToEurWithoutOccurence() {
+        assertEquals("I have 500 Dollars, you have 800 Dollars.", tddMethods.changeToEur("Euro", "I have 500 Dollars, you have 800 Dollars."));
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction changeToEur with empty exhange paramter")
+    void changeToEurWithEmptyStringToExchange() {
+        assertEquals("I have 500 Dollars, you have 800 Dollars.", tddMethods.changeToEur("", "I have 500 Dollars, you have 800 Dollars."));
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction changeToEur with empty text paramter")
+    void changeToEurWithEmptyText() {
+        assertEquals("", tddMethods.changeToEur("Euro", ""));
+    }
+
+    // TODO: null parameters
 }
