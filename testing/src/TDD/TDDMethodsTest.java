@@ -36,5 +36,15 @@ class TDDMethodsTest {
         assertEquals("", tddMethods.changeToEur("Euro", ""));
     }
 
-    // TODO: null parameters
+    @org.junit.jupiter.api.Test
+    @DisplayName("Test fuction changeToEur with parameter null")
+    void loginException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> tddMethods.changeToEur(null, "I have 500 Euro, you have 800 Euro."),
+                "Parameters must not be null.");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> tddMethods.changeToEur("Euro", null),
+                "Parameters must not be null.");
+    }
 }
