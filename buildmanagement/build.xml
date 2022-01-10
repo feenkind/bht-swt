@@ -1,0 +1,106 @@
+<project name="SWT Buildmanagement" basedir="." default="main">
+    <echo message="Set properties..." level="info" />
+
+    <!-- build number -->
+    <property name="version" value="1.0."/>
+    <buildnumber/>
+
+    <property name="src.folder" value="./src" />
+    <property name="build.folder" value="./build" />
+    <property name="dist.folder" value="./dist" />
+    <property name="tmp.folder" value="./tmp" />
+    <property name="tmp.build.folder" value="./tmp/build" />
+
+    <!-- to not have to write all library class paths one by one, use a fileset -->
+    <echo message="Setting path to used libraries..." level="info" />
+    <path id="class.path">
+        <fileset dir="./lib" includes="**/*.jar" />
+    </path>
+
+
+    <!-- initial tasks like creating directories -->
+    <target name="init">
+        <!-- set timestamp -->
+        <tstamp />
+        <!-- make directories and empty build directory -->
+        <echo message="Delete build folder..." level="info" />
+        <delete dir="${build.folder}" />
+
+        <echo message="Create folder..." level="info" />
+        <mkdir dir="${build.folder}" />
+        <mkdir dir="${dist.folder}" />
+    </target>
+
+    <!-- copy all files from source to working directory -->
+    <target name="get" depends="init">
+        <echo message="Copy all files from source to working directory..." level="info" />
+        <!-- make directory if not exists-->
+        <mkdir dir="${tmp.folder}" />
+        <mkdir dir="${tmp.build.folder}" />
+        <copy todir="${tmp.folder}">
+            <fileset dir="${src.folder}" />
+        </copy>
+    </target>
+
+
+    <!-- compiling from working directory to build -->
+    <target name="compile" depends="get">
+        <echo message="Compiling..." level="info" />
+        <javac
+                srcdir="${tmp.folder}"
+                destdir="${tmp.build.folder}"
+                includeantruntime="false"
+                source="1.10"
+        >
+        <!-- include all needed libraries -->
+        <classpath refid="class.path" />
+        </javac>
+    </target>
+
+    <!-- creating the jar files and add them to the build and dist library -->
+    <target name="jar" depends="compile">
+        <!-- add jar to archive -->
+        <jar
+                destfile="${dist.folder}/lib/${DSTAMP}/user_${version}${build.number}.jar"
+                basedir="${tmp.build.folder}"
+                includes="**/*.class"
+        >
+            <manifest>
+                <attribute name="Main-Class" value="User"/>
+            </manifest>
+        </jar>
+        <!-- this is used for run later -->
+        <copy file="${dist.folder}/lib/${DSTAMP}/user_${version}${build.number}.jar" tofile="${build.folder}/user.jar" />
+    </target>
+
+    <!-- run the test -->
+<!--    <target name="test" depends="compile">-->
+<!--        <echo message="Running tests..." level="info" />-->
+<!--        <junit printsummary="yes" haltonfailure="yes" >-->
+<!--            <classpath location="./lib/junit-4.13.1.jar" />-->
+<!--            &lt;!&ndash; print test result on screen &ndash;&gt;-->
+<!--            <formatter type="plain" usefile="false" />-->
+<!--            <test name="UserTest.java"/>-->
+<!--        </junit>-->
+<!--    </target>-->
+
+    <!-- run the application -->
+    <target name="run" depends="jar">
+        <!-- use jar of build folder, this is the latest jar -->
+        <java jar="${build.folder}/user.jar" fork="true" />
+    </target>
+
+<!--    <target name="doc" depends="compile">-->
+
+<!--    </target>-->
+
+    <!-- clean up everything not needed anymore -->
+    <target name="clean" depends="run, doc">
+        <echo message="Cleaning up..." level="info" />
+        <delete dir="${tmp.folder}" />
+    </target>
+
+    <target name="main" depends="clean">
+        <echo message="Congratulations, the build completed successfuly." level="info" />
+    </target>
+</project>
