@@ -1,3 +1,5 @@
+package user;
+
 import java.util.regex.Pattern;
 
 public class User {

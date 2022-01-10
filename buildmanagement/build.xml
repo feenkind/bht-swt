@@ -66,23 +66,37 @@
                 includes="**/*.class"
         >
             <manifest>
-                <attribute name="Main-Class" value="User"/>
+                <attribute name="Main-Class" value="user.User"/>
             </manifest>
         </jar>
         <!-- this is used for run later -->
         <copy file="${dist.folder}/lib/${DSTAMP}/user_${version}${build.number}.jar" tofile="${build.folder}/user.jar" />
     </target>
 
-    <!-- run the test -->
-<!--    <target name="test" depends="compile">-->
-<!--        <echo message="Running tests..." level="info" />-->
-<!--        <junit printsummary="yes" haltonfailure="yes" >-->
-<!--            <classpath location="./lib/junit-4.13.1.jar" />-->
-<!--            &lt;!&ndash; print test result on screen &ndash;&gt;-->
-<!--            <formatter type="plain" usefile="false" />-->
-<!--            <test name="UserTest.java"/>-->
-<!--        </junit>-->
-<!--    </target>-->
+    <!-- run the tests -->
+    <target name="test" depends="compile">
+        <echo message="Running tests..." level="info" />
+        <junit printsummary="yes" haltonfailure="no" logfailedtests="true" >
+            <classpath>
+                <!-- needed for test execution -->
+                <path refid="class.path" />
+                <!-- this is needed for the test class to be found -->
+                <pathelement path="${tmp.build.folder}"/>
+            </classpath>
+            <!-- print test result on screen -->
+            <formatter type="plain" usefile="false" />
+            <!-- run all tests in the tmp folder -->
+            <batchtest fork="yes">
+                <fileset dir="${tmp.folder}">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="doc" depends="compile">
+
+    </target>
 
     <!-- run the application -->
     <target name="run" depends="jar">
@@ -90,12 +104,9 @@
         <java jar="${build.folder}/user.jar" fork="true" />
     </target>
 
-<!--    <target name="doc" depends="compile">-->
-
-<!--    </target>-->
 
     <!-- clean up everything not needed anymore -->
-    <target name="clean" depends="run, doc">
+    <target name="clean" depends="test, doc, run">
         <echo message="Cleaning up..." level="info" />
         <delete dir="${tmp.folder}" />
     </target>

@@ -1,26 +1,30 @@
+package user;
+
+// ant only runs with junit test and before
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserTest {
+public class UserTest {
     User user;
 
-    @org.junit.jupiter.api.BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         this.user = new User();
     }
 
     @Test
     @DisplayName("Test successful login")
-    void loginSuccessful() {
+    public void loginSuccessful() {
         assertTrue(user.login("test@test.de", "pw123"));
         assertEquals("", user.getErrorLabel());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test successful login after missing validation")
-    void loginSuccessfulAfterFail() {
+    public void loginSuccessfulAfterFail() {
         assertFalse(user.login("", ""));
         assertEquals("Email and Password are required.", user.getErrorLabel());
 
@@ -29,9 +33,9 @@ class UserTest {
         assertEquals("", user.getErrorLabel());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test login with invalid email address")
-    void loginEmailInvalid() {
+    public void loginEmailInvalid() {
         // usually more than one test case should not be in one test function, but since the same functionality is testet
         // and there is already a test for resetting the error label, it is ok
         assertFalse(user.login("test", "pw123"));
@@ -44,30 +48,30 @@ class UserTest {
         assertEquals("Email is not valid.", user.getErrorLabel());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test login with missing password")
-    void loginRequiredMissingPassword() {
+    public void loginRequiredMissingPassword() {
         assertFalse(user.login("test", ""));
         assertEquals("Email and Password are required.", user.getErrorLabel());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test login with missing name")
-    void loginRequiredMissingName() {
+    public void loginRequiredMissingName() {
         assertFalse(user.login("", "pw123"));
         assertEquals("Email and Password are required.", user.getErrorLabel());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test login with missing password and missing name")
-    void loginRequiredMissingPasswordAndName() {
+    public void loginRequiredMissingPasswordAndName() {
         assertFalse(user.login("", ""));
         assertEquals("Email and Password are required.", user.getErrorLabel());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test login with null parameter")
-    void loginException() {
+    public void loginException() {
         assertThrows(IllegalArgumentException.class, () -> user.login(null, "pw123"), "Email and password must not be null.");
 
 
@@ -78,54 +82,54 @@ class UserTest {
         assertEquals(user.getErrorLabel(), "");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test successful registration")
-    void registerSuccessful() {
+    public void registerSuccessful() {
         assertTrue(user.register("test", "test@test.de", "pw123"));
         assertEquals("", user.getErrorLabel());
         assertEquals("test", user.getUserName());
         assertEquals("test@test.de", user.getUserEmail());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test registration with missing name")
-    void registerRequriredMissingName() {
+    public void registerRequriredMissingName() {
         assertFalse(user.register("", "test@test.de", "pw123"));
         assertEquals("Name, Email and Password are required.", user.getErrorLabel());
         assertEquals("", user.getUserName());
         assertEquals("", user.getUserEmail());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test registration with missing email")
-    void registerRequriredMissingEmail() {
+    public void registerRequriredMissingEmail() {
         assertFalse(user.register("test", "", "pw123"));
         assertEquals("Name, Email and Password are required.", user.getErrorLabel());
         assertEquals("", user.getUserName());
         assertEquals("", user.getUserEmail());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test registration with missing password")
-    void registerRequriredMissingPassword() {
+    public void registerRequriredMissingPassword() {
         assertFalse(user.register("test", "test@test.de", ""));
         assertEquals("Name, Email and Password are required.", user.getErrorLabel());
         assertEquals("", user.getUserName());
         assertEquals("", user.getUserEmail());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test registration with all parameters missing")
-    void registerRequriredMissingAll() {
+    public void registerRequriredMissingAll() {
         assertFalse(user.register("", "", ""));
         assertEquals("Name, Email and Password are required.", user.getErrorLabel());
         assertEquals("", user.getUserName());
         assertEquals("", user.getUserEmail());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test registration with invalid email address")
-    void registerEmailInvalid() {
+    public void registerEmailInvalid() {
         assertFalse(user.register("test", "test", "pw123"));
         assertEquals("Email is not valid.", user.getErrorLabel());
 
@@ -139,9 +143,9 @@ class UserTest {
         assertEquals("", user.getUserEmail());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test registration with null parameter")
-    void registerException() {
+    public void registerException() {
         assertThrows(IllegalArgumentException.class, () -> user.register(null, "test@test.de", "pw123"), "Name, email and password must not be null.");
         assertEquals("", user.getErrorLabel());
 
@@ -158,9 +162,9 @@ class UserTest {
         assertEquals("", user.getUserEmail());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("Test setting of user image")
-    void setUserImage() {
+    public void setUserImage() {
         this.user.setUserImage("testimage.png");
         assertEquals("testimage.png", user.getUserImage());
     }
